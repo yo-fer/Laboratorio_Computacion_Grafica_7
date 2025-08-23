@@ -1,9 +1,7 @@
 /*
-Para todas las prácticas se agrega esto:
-
 Práctica 2
 Fernando Pérez Cruz
-<Fecha de entrega>
+Fecha de entrega: 24 de agosto de 2025
 422022569
 */
 
@@ -67,23 +65,6 @@ int main() {
     Shader ourShader("Shader/core.vs", "Shader/core.frag");
 
 	// Set up vertex data (and buffer(s)) and attribute pointers
-	
-	/*
-	float vertices[] = {
-		0.5f,  0.5f, 0.0f,    1.0f,0.0f,0.0f,  // top right
-		0.5f, -0.5f, 0.0f,    1.0f,1.0f,0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f,   1.0f,0.0f,1.0f,  // bottom left
-		-0.5f,  0.5f, 0.0f,   1.0f,1.0f,0.0f, // top left 
-	};
-	
-	
-	unsigned int indices[] = {  // note that we start from 0!
-		0,1,3,// second Triangle
-		0,1,3,
-		
-	};
-
-	*/
 
 	// Coordenadas para dibujar ranita
 	float vertices[] = {
@@ -313,46 +294,12 @@ int main() {
 
 
         glPointSize(1);
-        //glDrawArrays(GL_POINTS,0,4);
         
-        //glDrawArrays(GL_LINES,1,2);
-        //glDrawArrays(GL_LINE_LOOP,0,3);
-		//glDrawElements(GL_LINE_LOOP, 3, GL_UNSIGNED_INT, 0);
-        
-        //glDrawArrays(GL_TRIANGLES,1,3);
-        //glDrawElements(GL_TRIANGLES, 3,GL_UNSIGNED_INT,0);
-
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
-		//glDrawArrays(GL_QUADS,0,4);
-
-		// Set up vertex data (and buffer(s)) and attribute pointers
-		/*
-		float vertices[] = {
-			0.5f,  0.5f, 0.0f,    1.0f,0.0f,0.0f,  // top right
-			0.5f, -0.5f, 0.0f,    1.0f,1.0f,0.0f,  // bottom right
-			-0.5f, -0.5f, 0.0f,   1.0f,0.0f,1.0f,  // bottom left
-			-0.5f,  0.5f, 0.0f,   1.0f,1.0f,0.0f, // top left 
-		};
-		unsigned int indices[] = {  // note that we start from 0!
-			3,2,1,// second Triangle
-			0,1,3,
-
-			2,3,0
-
-		};
-
-		*/
-
 		// Dibujando ranita
-		//glDrawArrays(GL_QUADS, 0, 4);
-		//glDrawArrays(GL_QUADS, 0, 4);
-		//glDrawArrays(GL_QUADS, 4, 4);
+		
 		for (int i = 0; i <= 108; i = i + 4) {
 			glDrawArrays(GL_QUADS, i, 4);
 		}
-		//glDrawArrays(GL_QUADS, 8, 12);
-		//glDrawArrays(GL_QUADS, 12, 16);
-
         
         glBindVertexArray(0);
     
@@ -372,12 +319,3 @@ void resize(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 	//glViewport(0, 0, screenWidth, screenHeight);
 }
-
-// En el reporte una breve descripción del paso a paso
-	// para dibujar colores use esto
-	// para dibujar la cabeza lo dividí en tales partes y use estas funciones
-	// que sea como un manual que podría consultar en el futuro para replicar ciertas cosas para las prácticas
-// Captura en pantalla del resultado final
-// Agregar en la referencias la liga del repositorio de github
-// También se agrega el vídeo como referencia
-// Agregar conclusión en cuestión del avance y ritmo en el laboratorio
