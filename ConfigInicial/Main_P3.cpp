@@ -1,3 +1,11 @@
+/*
+Práctica3
+Fecha de entrega: 31 de agosto de 2025
+Fernando Pérez Cruz
+422022569
+*/
+
+
 #include<iostream>
 
 //#define GLEW_STATIC
@@ -29,7 +37,7 @@ int main() {
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Proyecciones y transformaciones basicas", nullptr, nullptr);
+	GLFWwindow *window = glfwCreateWindow(WIDTH, HEIGHT, "Práctica 3 Fernando Pérez", nullptr, nullptr);
 
 	int screenWidth, screenHeight;
 
@@ -165,8 +173,6 @@ int main() {
 	};
 
 
-
-
 	GLuint VBO, VAO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -210,55 +216,103 @@ int main() {
 		// Render
 		// Clear the colorbuffer
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT| GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
 		// Draw our first triangle
 		ourShader.Use();
-		glm::mat4 model=glm::mat4(1);
-		glm::mat4 view=glm::mat4(1);
-	
-		view = glm::translate(view, glm::vec3(0.0f,0.0f,-12.0f));
-		model = glm::rotate( model, 0.5f, glm::vec3( 0.0f, 1.0f, 0.0f ) ); // use to compare orthographic and perspective projection
-		model = glm::scale(model, glm::vec3(2.0f, 3.0f, 5.0f));
-		// view = glm::translate( view, glm::vec3( screenWidth / 2, screenHeight / 4,-800.0f ) ); // use with orthographic projection
-		
+		//glm::mat4 model=glm::mat4(1);
+		glm::mat4 view = glm::mat4(1);
+
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -12.0f));
+		//model = glm::rotate( model, 0.5f, glm::vec3( 0.0f, 1.0f, 0.0f ) ); // use to compare orthographic and perspective projection
+		//model = glm::scale(model, glm::vec3(2.0f, 3.0f, 5.0f));
+		//view = glm::translate( view, glm::vec3( screenWidth / 2, screenHeight / 4,-800.0f ) ); // use with orthographic projection
+
 		GLint modelLoc = glGetUniformLocation(ourShader.Program, "model");
 		GLint viewLoc = glGetUniformLocation(ourShader.Program, "view");
 		GLint projecLoc = glGetUniformLocation(ourShader.Program, "projection");
-		
+
 		glUniformMatrix4fv(projecLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
 
 		glBindVertexArray(VAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+		// Drawing 8 cubes
+
+		// First layer
+
+		// Cube 1
+		glm::mat4 model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-5.5f, -4.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.2f, 3.2f, 3.2f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		
-		// Nuevo elemento
+	
+		// Cube 2
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(5.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, 45.0f, glm::vec3(0.0f, 0.0f, 1.0f)); // use to compare orthographic and perspective projection
-		model = glm::scale(model, glm::vec3(8.0f, 1.0f, 5.0f));
+		model = glm::translate(model, glm::vec3(-2.1f, -4.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.2f, 3.2f, 3.2f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		// Agregando un tercer cubo
+		// Cube 3
 		model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(-8.0f, -2.0f, -8.0f));
-		model = glm::scale(model, glm::vec3(4.0f, 8.0f, -5.0f));
-		model = glm::rotate(model, 1.0f, glm::vec3(1.0f, 1.0f, 14.0f));
+		model = glm::translate(model, glm::vec3(1.3f, -4.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.2f, 3.2f, 3.2f));
+		model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
+		// Cube 4
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(4.7f, -4.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(3.2f, 3.2f, 3.2f));
+		model = glm::rotate(model, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
+		// Second layer
+		// cube 5
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-3.4f, -0.8f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Cube 6
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-0.6f, -0.8f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
+		model = glm::rotate(model, glm::radians(190.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Cube 7
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(2.4f, -0.8f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.6f, 2.6f, 2.6f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		// Third layer
+		// Cube 8
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-0.3f, 1.7f, 0.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+	
 		glBindVertexArray(0);
-
-
-
-		
-		
-		
 
 		// Swap the screen buffers
 		glfwSwapBuffers(window);
@@ -270,13 +324,7 @@ int main() {
 
 	glfwTerminate();
 	return EXIT_SUCCESS;
-
+	
   
 
 }
-
-
-
-// Apilar el número de cubos equivalente a la cantidad de las letras de mi nombre
-// Cada cubo hay que rotarlo para que salga un color distinto
-// Cada nivel tiene una escala distinta, empezando por el primer nivel teniendo una escala mayor
