@@ -1,5 +1,5 @@
 /*
-* Previo 7		Fecha de entrega: 20/09/2025
+* Práctica 7		Fecha de entrega: 26/09/2025
 * Fernando Pérez Cruz	422022569
 */
 
@@ -61,7 +61,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Previo 7 Fernando Perez", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Practica 7 Fernando Perez", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -102,6 +102,8 @@ int main()
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 
 	// Set up vertex data (and buffer(s)) and attribute pointers
+
+	/*
 	GLfloat vertices[] =
 	{
 		// Positions            // Colors              // Texture Coords
@@ -112,26 +114,86 @@ int main()
 
 		
 	};
+	*/
 
+	/*
 	GLuint indices[] =
 	{  // Note that we start from 0!
 		0,1,3,
 		1,2,3
 	
 	};
+	*/
+
+	// Vértices para el cubo
+	// Set up vertex data (and buffer(s)) and attribute pointers
+	GLfloat vertices[] =
+	{
+		// **Cara Superior** 
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 1.0f, // Arriba izquierda
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 1.0f,  // Arriba derecha
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 2.0f / 3.0f,   // Abajo derecha
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 2.0f / 3.0f,   // Abajo derecha
+		-0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 2.0f / 3.0f,  // Abajo izquierda
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 1.0f, // Arriba izquierda
+
+		// **Cara Inferior**
+		-0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 1.0f / 3.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 1.0f / 3.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 1.0f / 3.0f,
+
+		// **Cara Trasera** 
+		-0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 2.0f / 3.0f,  // Abajo izquierda
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.75f, 2.0f / 3.0f, // Abajo derecha
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.75f, 1.0f / 3.0f,// Arriba derecha
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.75f, 1.0f / 3.0f,// Arriba derecha
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 1.0f / 3.0f, // Arriba izquierda
+		-0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 2.0f / 3.0f,  // Abajo izquierda
+
+		// **Cara Frontal** 
+		-0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.0f, 2.0f / 3.0f,  // Abajo izquierda
+		 0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 2.0f / 3.0f,   // Abajo derecha
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 1.0f / 3.0f,  // Arriba derecha
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 1.0f / 3.0f,  // Arriba derecha
+		-0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.0f, 1.0f / 3.0f, // Arriba izquierda
+		-0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.0f, 2.0f / 3.0f,  // Abajo izquierda
+
+		// **Cara Derecha**
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 2.0f / 3.0f,  // Abajo izquierda
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 2.0f / 3.0f, // Arriba izquierda
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 1.0f / 3.0f,  // Arriba derecha
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.5f, 1.0f / 3.0f,  // Arriba derecha
+		 0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 1.0f / 3.0f,   // Abajo derecha
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.25f, 2.0f / 3.0f,  // Abajo izquierda
+
+		 // **Cara Izquierda**
+		 -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.75f, 2.0f / 3.0f,  // Abajo derecha
+		 -0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  1.0f, 2.0f / 3.0f, // Arriba derecha
+		 -0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  1.0f, 1.0f / 3.0f,// Arriba izquierda
+		 -0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  1.0f, 1.0f / 3.0f,// Arriba izquierda
+		 -0.5f, -0.5f,  0.5f,  1.0f, 1.0f, 1.0f,  0.75f, 1.0f / 3.0f, // Abajo izquierda
+		 -0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 1.0f,  0.75f, 2.0f / 3.0f   // Abajo derecha
+	};
 
 	// First, set the container's VAO (and VBO)
-	GLuint VBO, VAO,EBO;
+	//GLuint VBO, VAO,EBO;
+	//glGenVertexArrays(1, &VAO);
+	//glGenBuffers(1, &VBO);
+	//glGenBuffers(1, &EBO);
+
+	GLuint VBO, VAO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// Position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid *)0);
@@ -160,10 +222,13 @@ int main()
 	//image = stbi_load("images/window.png", &textureWidth, &textureHeight, &nrChannels, 0);
 
 	/* Cargando textura de piedra */
-	image = stbi_load("images/stone.jpg", &textureWidth, &textureHeight, &nrChannels, 0);
+	//image = stbi_load("images/stone.jpg", &textureWidth, &textureHeight, &nrChannels, 0);
 
 	/* Cargando textura de fuego */
 	//image = stbi_load("images/fire.png", &textureWidth, &textureHeight, &nrChannels, 0);
+
+	/* Cargando textura de dado */
+	image = stbi_load("images/dice.jpg", &textureWidth, &textureHeight, &nrChannels, 0);
 
 	glBindTexture(GL_TEXTURE_2D, texture1);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
@@ -222,7 +287,8 @@ int main()
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		// Draw the light object (using light's vertex attributes)
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
 
 		// Swap the screen buffers
@@ -231,7 +297,7 @@ int main()
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	//glDeleteBuffers(1, &EBO);
 	// Terminate GLFW, clearing any resources allocated by GLFW.
 	glfwTerminate();
 
