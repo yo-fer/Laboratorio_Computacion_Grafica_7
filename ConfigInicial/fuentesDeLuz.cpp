@@ -1,8 +1,8 @@
 /* 
 =====
-Previo#9
+Práctica#9
 Fernando Pérez Cruz
-Fecha de entrega: 14 de octubre de 2025
+Fecha de entrega: 15 de octubre de 2025
 422022569
 =====
 */
@@ -125,7 +125,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);*/
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Previo 9 Fernando Perez", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Practica 9 Fernando Perez", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -164,11 +164,19 @@ int main()
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 	
 	//Model Dog((char*)"Models/RedDog.obj");
-	Model Ball((char*)"Models/ball.obj");
 	Model Piso((char*)"Models/piso.obj");
 
-	Model glass((char*)"Models/glass-plane.obj");
+	Model dog((char*)"Models/RedDog.obj");
+	Model forest((char*)"Models/forest.obj");
+	Model arlo((char*)"Models/arlo.obj");
+	Model trex((char*)"Models/dino2.obj");
+	Model mesaPicnic((char*)"Models/mesapicnic.obj");
+	Model fence((char*)"Models/fence.obj");
+	Model agave((char*)"Models/agave.obj");
 
+	Model fire((char*)"Models/fire.obj");
+	Model lamp((char*)"Models/lamp.obj");
+	Model pumpkin((char*)"Models/pumpkin.obj");
 
 
 	// First, set the container's VAO (and VBO)
@@ -211,10 +219,6 @@ int main()
 	   
 		// OpenGL options
 		glEnable(GL_DEPTH_TEST);
-
-		
-		
-		//Load Model
 	
 
 		// Use cooresponding shader when setting uniforms/drawing objects
@@ -229,22 +233,30 @@ int main()
 
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f); // hacia donde apunta la componente de luz
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.5f, 0.5f, 0.55f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.5f, 0.5f, 0.5f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"),0.3f, 0.3f, 0.3f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.1f, 0.1f, 0.1f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.15f, 0.15f, 0.15f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"),0.0f, 0.0f, 0.0f);
 
 
 		// Point light 1
 	    glm::vec3 lightColor;
-		lightColor.x= abs(sin(glfwGetTime() *Light1.x));
-		lightColor.y= abs(sin(glfwGetTime() *Light1.y));
-		lightColor.z= sin(glfwGetTime() *Light1.z);
+		lightColor.x= abs(sin(glfwGetTime() *Light1.x)) * 1.5f + 0.5f;
+		lightColor.y= abs(sin(glfwGetTime() *Light1.y)) * 0.8f;
+		lightColor.z= abs(sin(glfwGetTime() *Light1.z)) * 0.3f;
 
-		
+		// ==== Lights positions ====
+		//glm::vec3 lampPosition = glm::vec3(0.68841f, 2.4188f, 0.9347f); 
+		glm::vec3 lampPosition = glm::vec3(0.6f, 1.00f, -2.0f);
+		//glm::vec3 lampDirection = glm::vec3(0.0f, -0.707f, 0.707f);
+		glm::vec3 lampDirection = glm::vec3(0.0f, 0.0f, 1.0f);
+		glm::vec3 pumpinkPosition = glm::vec3(-0.86866f, 2.1678f, 0.92375f);
+		glm::vec3 firePosition = glm::vec3(0.0f, -2.7217f, 1.0f);
+
+		/*
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), lightColor.x,lightColor.y, lightColor.z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), lightColor.x,lightColor.y,lightColor.z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 1.0f, 0.2f, 0.2f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.2f, 1.0f, 0.2f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].linear"), 0.045f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"),0.075f);
@@ -257,6 +269,25 @@ int main()
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].linear"), 0.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].quadratic"), 0.0f);
+		*/
+
+		// Point light 1 (fire)
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), firePosition.x, firePosition.y, firePosition.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), lightColor.x * 0.5f, lightColor.y * 0.5f, lightColor.z * 0.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), lightColor.x, lightColor.y, lightColor.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 0.5f, 0.5f, 0.5f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].linear"), 0.09f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"), 0.032f);
+
+		// Point light 2 (pumpkin)
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].position"), pumpinkPosition.x, pumpinkPosition.y, pumpinkPosition.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].ambient"), 0.4f, 0.2f, 0.05f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].diffuse"), 0.8f, 0.4f, 0.0f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[1].specular"), 0.0f, 0.0f, 0.0f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].linear"), 0.7f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[1].quadratic"), 1.8f);
 
 		// Point light 3
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[2].position"), pointLightPositions[2].x, pointLightPositions[2].y, pointLightPositions[2].z);
@@ -276,18 +307,31 @@ int main()
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].linear"), 0.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[3].quadratic"), 0.0f);
 
-		// SpotLight (posición y dirección)
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.position"), camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.direction"), camera.GetFront().x, camera.GetFront().y, camera.GetFront().z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.ambient"), 0.2f, 0.2f, 0.8f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.diffuse"), 0.2f, 0.2f, 0.8f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLight.specular"),0.0f, 0.0f, 0.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.constant"), 1.0f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.linear"), 0.3f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.quadratic"), 0.7f);
+		// SpotLight 1 (camera) (posición y dirección)
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[0].position"), camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[0].direction"), camera.GetFront().x, camera.GetFront().y, camera.GetFront().z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[0].ambient"), 0.2f, 0.2f, 0.8f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[0].diffuse"), 0.2f, 0.2f, 0.8f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[0].specular"),0.0f, 0.0f, 0.0f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[0].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[0].linear"), 0.3f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[0].quadratic"), 0.7f);
 		// ==== ángulos de apertura ====
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.cutOff"), glm::cos(glm::radians(12.0f)));
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.outerCutOff"), glm::cos(glm::radians(18.0f)));
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[0].cutOff"), glm::cos(glm::radians(12.0f)));
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[0].outerCutOff"), glm::cos(glm::radians(18.0f)));
+
+		// SpotLight 2 (lantern) (posición y dirección)
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[1].position"), lampPosition.x, lampPosition.y, lampPosition.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[1].direction"), lampDirection.x, lampDirection.y, lampDirection.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[1].ambient"), 0.2f, 0.2f, 0.2f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[1].diffuse"), 1.5f, 1.5f, 1.5f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "spotLights[1].specular"), 0.5f, 0.5f, 0.5f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[1].constant"), 1.0f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[1].linear"), 0.007f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[1].quadratic"), 0.0002f);
+		// ==== ángulos de apertura ====
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[1].cutOff"), glm::cos(glm::radians(20.0f)));
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLights[1].outerCutOff"), glm::cos(glm::radians(30.0f)));
 
 		// Set material properties
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 16.0f);
@@ -308,14 +352,147 @@ int main()
 
 		glm::mat4 model(1);
 
-	
-
 		//Carga de modelo 
         view = camera.GetViewMatrix();	
 		model = glm::mat4(1);
+		model = glm::scale(model, glm::vec3(2.0f, 0.0f, 2.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Piso.Draw(lightingShader);
 
+		// ==== Inicio de la carga del escenario
+
+
+		// Drawing lamp
+		model = glm::mat4(1.0f);
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		lamp.Draw(lightingShader);
+
+		// Drawing pumpink
+		model = glm::mat4(1.0f);
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		pumpkin.Draw(lightingShader);
+
+		// Drawing fire
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		fire.Draw(lightingShader);
+
+		 // Drawing forest
+		model = glm::mat4(1.0);
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		forest.Draw(lightingShader);
+
+		// Arlo the dinosaur
+		model = glm::mat4(1);
+		model = glm::rotate(model, glm::radians(12.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		arlo.Draw(lightingShader);
+
+		// Another dino
+		model = glm::mat4(1);
+		model = glm::rotate(model, glm::radians(10.0f), glm::vec3(0.0f, -1.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		trex.Draw(lightingShader);
+
+		// Our dog
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(0.0f, 0.7f, 2.0f));
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		dog.Draw(lightingShader);
+
+		// Picnic table
+		model = glm::mat4(1);
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		mesaPicnic.Draw(lightingShader);
+
+		// Some fences
+		model = glm::mat4(1);
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		fence.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(4.5f, 0.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		fence.Draw(lightingShader);
+
+		// Some plants
+		model = glm::mat4(1);
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(1.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, -1.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(1.0f, 0.0f, -1.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-5.0f, 0.0f, -1.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-5.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-4.0f, 0.0f, 0.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-4.0f, 0.0f, -1.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-4.0f, 0.0f, -2.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-3.0f, 0.0f, -2.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-2.0f, 0.0f, -2.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-1.0f, 0.0f, -2.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-0.0f, 0.0f, -2.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(1.0f, 0.0f, -2.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		model = glm::mat4(1);
+		model = glm::translate(model, glm::vec3(-5.0f, 0.0f, -2.0f));
+		glUniformMatrix4fv(glGetUniformLocation(lightingShader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		agave.Draw(lightingShader);
+
+		// ===== Final de la carga del 
 
 	
 		model = glm::mat4(1);
@@ -328,7 +505,7 @@ int main()
 		//Ball.Draw(lightingShader);
 
 		// ==== Modelo propio ====
-		glass.Draw(lightingShader);
+		//glass.Draw(lightingShader);
 
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
@@ -354,9 +531,17 @@ int main()
 			model = glm::mat4(1);
 			model = glm::translate(model, pointLightPositions[i]);
 			model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			glBindVertexArray(VAO);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+			//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			//glBindVertexArray(VAO);
+			//glDrawArrays(GL_TRIANGLES, 0, 36);
+
+			model = glm::mat4(1);
+			model = glm::translate(model, lampPosition);
+			model = glm::scale(model, glm::vec3(0.2f)); 
+			//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			//glBindVertexArray(VAO);
+			//glDrawArrays(GL_TRIANGLES, 0, 36);
+			glBindVertexArray(0);
 		}
 		glBindVertexArray(0);
 

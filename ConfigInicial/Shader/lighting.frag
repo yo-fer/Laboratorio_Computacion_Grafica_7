@@ -1,6 +1,7 @@
 #version 330 core
 
 #define NUMBER_OF_POINT_LIGHTS 4
+#define NUMBER_OF_SPOT_LIGHTS 2
 
 struct Material
 {
@@ -55,8 +56,12 @@ out vec4 color;
 
 uniform vec3 viewPos;
 uniform DirLight dirLight;
+
 uniform PointLight pointLights[NUMBER_OF_POINT_LIGHTS];
-uniform SpotLight spotLight;
+//uniform SpotLight spotLight;
+uniform SpotLight spotLights[NUMBER_OF_SPOT_LIGHTS];
+
+
 uniform Material material;
 uniform int transparency;
 
@@ -81,7 +86,11 @@ void main( )
     }
     
     // Spot light
-    result += CalcSpotLight( spotLight, norm, FragPos, viewDir );
+    //result += CalcSpotLight( spotLight, norm, FragPos, viewDir );
+    for ( int i = 0; i < NUMBER_OF_SPOT_LIGHTS; i++) 
+    {
+        result += CalcSpotLight( spotLights[i], norm, FragPos, viewDir );
+    }
  	
     color = vec4( result,texture(material.diffuse, TexCoords).rgb );
 	  if(color.a < 0.1 && transparency==1)
@@ -154,7 +163,7 @@ vec3 CalcSpotLight( SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir )
     float attenuation = 1.0f / ( light.constant + light.linear * distance + light.quadratic * ( distance * distance ) );
     
     // Spotlight intensity
-    float theta = dot( lightDir, normalize( -light.direction ) );
+    float theta = dot( lightDir, -light.direction ); 
     float epsilon = light.cutOff - light.outerCutOff;
     float intensity = clamp( ( theta - light.outerCutOff ) / epsilon, 0.0, 1.0 );
     
@@ -169,3 +178,6 @@ vec3 CalcSpotLight( SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir )
     
     return ( ambient + diffuse + specular );
 }
+
+
+// Modificar el código para poder recibir más de una luz de cada tipo
